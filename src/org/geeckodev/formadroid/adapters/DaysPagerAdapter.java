@@ -8,7 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class DaysPagerAdapter extends FragmentPagerAdapter implements Iterable<Fragment> {
+public class DaysPagerAdapter extends FragmentPagerAdapter implements
+		Iterable<Fragment> {
 
 	private final List<Fragment> fragments;
 
@@ -16,26 +17,26 @@ public class DaysPagerAdapter extends FragmentPagerAdapter implements Iterable<F
 		super(fm);
 		this.fragments = new Vector<Fragment>();
 	}
-	
+
 	public void clear() {
 		this.fragments.clear();
 	}
-	
+
 	public void addItem(Fragment frag) {
 		this.fragments.add(frag);
 	}
-	
+
 	public void setItem(int pos, Fragment frag) {
 		this.fragments.set(pos, frag);
 	}
-	
+
 	@Override
 	public Iterator<Fragment> iterator() {
 		return this.fragments.iterator();
 	}
-	
+
 	@Override
-	public Fragment getItem(int pos) {		
+	public Fragment getItem(int pos) {
 		return this.fragments.get(pos);
 	}
 

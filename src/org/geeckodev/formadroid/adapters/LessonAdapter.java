@@ -12,12 +12,12 @@ import android.widget.TextView;
 public class LessonAdapter extends BaseAdapter {
 	Day day;
 	LayoutInflater inflater;
-	
+
 	public LessonAdapter(Context context, Day day) {
 		this.day = day;
 		this.inflater = LayoutInflater.from(context);
 	}
-	
+
 	@Override
 	public int getCount() {
 		return this.day.size();
@@ -38,17 +38,17 @@ public class LessonAdapter extends BaseAdapter {
 		TextView tvBegin;
 		TextView tvEnd;
 	}
-	
+
 	@Override
 	public View getView(int i, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		
-		if( convertView == null) {
+
+		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.itemlesson, null);
-			holder.tvName = (TextView)convertView.findViewById(R.id.tvName);
-			holder.tvBegin = (TextView)convertView.findViewById(R.id.tvBegin);
-			holder.tvEnd = (TextView)convertView.findViewById(R.id.tvEnd);
+			holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
+			holder.tvBegin = (TextView) convertView.findViewById(R.id.tvBegin);
+			holder.tvEnd = (TextView) convertView.findViewById(R.id.tvEnd);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -57,7 +57,7 @@ public class LessonAdapter extends BaseAdapter {
 		holder.tvName.setText(this.day.getLesson(i).getName());
 		holder.tvBegin.setText(this.day.getLesson(i).getBegin());
 		holder.tvEnd.setText(this.day.getLesson(i).getEnd());
-		
+
 		return convertView;
 	}
 
