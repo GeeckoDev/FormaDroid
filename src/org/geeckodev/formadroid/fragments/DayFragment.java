@@ -37,6 +37,9 @@ public class DayFragment extends Fragment {
 	}
 	
 	public void update(Day day) {
+		if (day == null)
+			return;
+		
 		this.day = day; // beurk
 		
 		if (this.lvLesson == null) // franchement degueulasse !!! mais ca marche
