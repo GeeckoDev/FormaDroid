@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 		dataAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		this.sGroup.setAdapter(dataAdapter);
-		
+
 		this.sGroup.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -73,8 +73,10 @@ public class MainActivity extends FragmentActivity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		
-		this.sGroup.setSelection(Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString("groups_pref", "0")));
+
+		this.sGroup.setSelection(Integer.valueOf(PreferenceManager
+				.getDefaultSharedPreferences(this)
+				.getString("groups_pref", "0")));
 
 		// Button
 		this.btnRefresh.setOnClickListener(new OnClickListener() {

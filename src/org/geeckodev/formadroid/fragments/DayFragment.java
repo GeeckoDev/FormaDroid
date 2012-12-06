@@ -42,6 +42,10 @@ public class DayFragment extends Fragment {
 	}
 
 	private void update(View view) {
+		/* Model is being updated, abort */
+		if (fd.model.isPending())
+			return;
+
 		int pos = this.getArguments().getInt("pos");
 		Day day = fd.model.getCurrentDay(pos);
 

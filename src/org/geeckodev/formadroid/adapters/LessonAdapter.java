@@ -2,6 +2,8 @@ package org.geeckodev.formadroid.adapters;
 
 import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.model.Day;
+import org.geeckodev.formadroid.model.Lesson;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,9 +56,11 @@ public class LessonAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tvName.setText(this.day.getLesson(i).getName());
-		holder.tvBegin.setText(this.day.getLesson(i).getBegin());
-		holder.tvEnd.setText(this.day.getLesson(i).getEnd());
+		Lesson lesson = this.day.getLesson(i);
+
+		holder.tvName.setText(lesson.getName());
+		holder.tvBegin.setText(lesson.getBegin());
+		holder.tvEnd.setText(lesson.getEnd());
 
 		return convertView;
 	}

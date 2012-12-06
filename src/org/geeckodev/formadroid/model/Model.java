@@ -5,21 +5,20 @@ import java.util.Date;
 
 import org.geeckodev.formadroid.dao.DAO;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 public class Model {
 	private String[] groups = { "A", "B", "C", "D", "GI", "ID", "IE", "LP" };
 	private String group;
 	private Week week;
 	private Week nextWeek;
 	private DAO dao;
+	private boolean pending;
 
 	public Model() {
 		this.week = new Week();
 		this.nextWeek = new Week();
 		this.dao = new DAO();
 		this.group = this.groups[0];
+		this.pending = false;
 	}
 
 	public void selectGroup(String group) {
@@ -48,8 +47,16 @@ public class Model {
 		return this.nextWeek;
 	}
 
+	public boolean isPending() {
+		return this.pending;
+	}
+
 	public void build() throws IOException {
+		this.pending = true;
+
 		this.dao.find(this.group, week, nextWeek);
+
+		this.pending = false;
 	}
 
 	public void print() {
