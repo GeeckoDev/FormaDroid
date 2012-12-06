@@ -54,7 +54,12 @@ public class Model {
 	public void build() throws IOException {
 		this.pending = true;
 
-		this.dao.find(this.group, week, nextWeek);
+		try {
+			this.dao.find(this.group, week, nextWeek);
+		} catch (IOException e) {
+			this.pending = false;
+			throw e;
+		}
 
 		this.pending = false;
 	}
