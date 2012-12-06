@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+<PreferenceCategory
+        android:title="group">
+        <ListPreference
+            android:title="Groupe"
+            android:key="groups_pref"
+            android:defaultValue="0"
+            android:entries="@array/listGroups"
+            android:entryValues="@array/listGroupsValues" />
+    </PreferenceCategory>
+    
+</PreferenceScreen>
