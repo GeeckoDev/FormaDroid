@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
 <PreferenceCategory
-        android:title="group">
+        android:title="Préférences">
         <ListPreference
             android:title="Groupe"
             android:key="groups_pref"
             android:defaultValue="0"
             android:entries="@array/listGroups"
             android:entryValues="@array/listGroupsValues" />
-    </PreferenceCategory>
+</PreferenceCategory>
     
 </PreferenceScreen>
