@@ -1,10 +1,12 @@
 package org.geeckodev.formadroid.adapters;
 
 import org.geeckodev.formadroid.R;
+import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.model.Day;
 import org.geeckodev.formadroid.model.Lesson;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,12 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class LessonAdapter extends BaseAdapter {
+	FormaDroid fd;
 	Day day;
 	LayoutInflater inflater;
 
 	public LessonAdapter(Context context, Day day) {
+		this.fd = (FormaDroid) context.getApplicationContext();
 		this.day = day;
 		this.inflater = LayoutInflater.from(context);
 	}
@@ -58,11 +62,19 @@ public class LessonAdapter extends BaseAdapter {
 
 		Lesson lesson = this.day.getLesson(i);
 
+		if ((this.day.getId() < fd.model.getCurrentDay(0).getId())
+				|| (this.day.getId() == fd.model.getCurrentDay(0).getId())) {
+			if (lesson.isFinished())
+				holder.tvName.setTextColor(Color.GRAY);
+			else if (lesson.isOngoing()) {
+				holder.tvName.setTextColor(Color.BLUE);
+			}
+		}
+
 		holder.tvName.setText(lesson.getName());
 		holder.tvBegin.setText(lesson.getBegin());
 		holder.tvEnd.setText(lesson.getEnd());
 
 		return convertView;
 	}
-
 }

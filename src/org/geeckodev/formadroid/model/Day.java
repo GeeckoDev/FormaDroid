@@ -5,10 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Day implements Iterable<Lesson> {
+	private int id;
 	private List<Lesson> lessons;
 	private String name;
 
-	public Day(String name) {
+	public Day(int id, String name) {
+		this.id = id;
 		this.lessons = new ArrayList<Lesson>();
 		this.name = name;
 	}
@@ -20,6 +22,10 @@ public class Day implements Iterable<Lesson> {
 	@Override
 	public Iterator<Lesson> iterator() {
 		return this.lessons.iterator();
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 	public Lesson getLesson(int i) {

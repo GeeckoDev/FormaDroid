@@ -9,13 +9,13 @@ public class Week implements Iterable<Day> {
 
 	public Week() {
 		this.days = new ArrayList<Day>();
-		this.days.add(new Day("Lundi"));
-		this.days.add(new Day("Mardi"));
-		this.days.add(new Day("Mercredi"));
-		this.days.add(new Day("Jeudi"));
-		this.days.add(new Day("Vendredi"));
-		this.days.add(new Day("Samedi"));
-		this.days.add(new Day("Dimanche"));
+		this.days.add(new Day(0, "Lundi"));
+		this.days.add(new Day(1, "Mardi"));
+		this.days.add(new Day(2, "Mercredi"));
+		this.days.add(new Day(3, "Jeudi"));
+		this.days.add(new Day(4, "Vendredi"));
+		this.days.add(new Day(5, "Samedi"));
+		this.days.add(new Day(6, "Dimanche"));
 	}
 
 	@Override
