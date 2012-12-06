@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.adapters.DaysPagerAdapter;
+import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.fragments.DayFragment;
 import org.geeckodev.formadroid.model.Model;
 
@@ -25,7 +26,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
-	private Model model;
+	private static int PAGE_NBR = 5;
+
+	private FormaDroid fd;
 	private Spinner sGroup;
 	private Button btnRefresh;
 	private ViewPager vpDays;
@@ -34,10 +37,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		/* Construct the model */
-
-		this.model = new Model();
+		fd = (FormaDroid) this.getApplication();
 
 		/* Construct the view */
 
@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity {
 
 		// Spinner
 		List<String> list = new ArrayList<String>();
-		for (String i : this.model.getGroups()) {
+		for (String i : fd.model.getGroups()) {
 			list.add(i);
 		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -61,8 +61,8 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int pos, long id) {
-				model.selectGroup(model.getGroups()[pos]);
-				new SynchronizeTask().execute(model);
+				fd.model.selectGroup(fd.model.getGroups()[pos]);
+				new SynchronizeTask().execute(fd.model);
 			}
 
 			@Override
@@ -74,18 +74,23 @@ public class MainActivity extends FragmentActivity {
 		this.btnRefresh.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SynchronizeTask().execute(model);
+				new SynchronizeTask().execute(fd.model);
 			}
 		});
 
 		// ViewPager
 		this.paDays = new DaysPagerAdapter(super.getSupportFragmentManager());
-		this.vpDays.setAdapter(this.paDays);
+		for (int i = 0; i < PAGE_NBR; i++) {
+			Bundle b = new Bundle();
+			b.putInt("pos", i);
 
-		for (int i = 0; i < 5; i++) {
-			this.paDays.addItem(Fragment.instantiate(this,
-					DayFragment.class.getName()));
+			DayFragment frag = (DayFragment) Fragment.instantiate(this,
+					DayFragment.class.getName());
+			frag.setArguments(b);
+			this.paDays.addItem(frag);
+
 		}
+		this.vpDays.setAdapter(this.paDays);
 	}
 
 	@Override
@@ -95,11 +100,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void update() {
-		int j = 0;
-		for (Fragment i : this.paDays) {
-			((DayFragment) i).update(this.model.getCurrentDay(j));
-			j++;
-		}
+		this.paDays.update();
 	}
 
 	private class SynchronizeTask extends AsyncTask<Model, Void, Integer> {

@@ -2,6 +2,7 @@ package org.geeckodev.formadroid.fragments;
 
 import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.adapters.LessonAdapter;
+import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.model.Day;
 
 import android.os.Bundle;
@@ -13,37 +14,43 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class DayFragment extends Fragment {
-	private ListView lvLesson;
-	private TextView tvToday;
-	private Day day; // degueu
+	private FormaDroid fd;
 
-	public DayFragment() {
-		this.day = null; // degueu
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		fd = (FormaDroid) this.getActivity().getApplication();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_day, container, false);
-
-		this.lvLesson = (ListView) view.findViewById(R.id.lvLesson);
-		this.tvToday = (TextView) view.findViewById(R.id.tvToday);
-
-		if (this.day != null) {
-			update(this.day); // degueu
-		}
+		update(view);
 
 		return view;
 	}
 
-	public void update(Day day) {
+	public void update() {
+		View view = getView();
+		/* outside the screen, abort */
+		if (view == null) {
+			return;
+		}
+
+		update(view);
+	}
+
+	private void update(View view) {
+		int pos = this.getArguments().getInt("pos");
+		Day day = fd.model.getCurrentDay(pos);
+
+		/* Day is undefined, keep the default view and abort */
 		if (day == null)
 			return;
 
-		this.day = day; // beurk
-
-		if (this.lvLesson == null) // franchement degueulasse !!! mais ca marche
-			return;
+		ListView lvLesson = (ListView) view.findViewById(R.id.lvLesson);
+		TextView tvToday = (TextView) view.findViewById(R.id.tvToday);
 
 		tvToday.setText("Cours du " + day.getName());
 
