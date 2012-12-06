@@ -8,14 +8,18 @@ import org.geeckodev.formadroid.adapters.DaysPagerAdapter;
 import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.fragments.DayFragment;
 import org.geeckodev.formadroid.model.Model;
+import org.geeckodev.formadroid.preferences.Preference;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -56,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 		dataAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		this.sGroup.setAdapter(dataAdapter);
-
+		
 		this.sGroup.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -69,6 +73,8 @@ public class MainActivity extends FragmentActivity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+		
+		this.sGroup.setSelection(Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString("groups_pref", "0")));
 
 		// Button
 		this.btnRefresh.setOnClickListener(new OnClickListener() {
@@ -96,6 +102,13 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.menu_search)
+			startActivity(new Intent(MainActivity.this, Preference.class));
 		return true;
 	}
 

@@ -5,6 +5,9 @@ import java.util.Date;
 
 import org.geeckodev.formadroid.dao.DAO;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 public class Model {
 	private String[] groups = { "A", "B", "C", "D", "GI", "ID", "IE", "LP" };
 	private String group;
