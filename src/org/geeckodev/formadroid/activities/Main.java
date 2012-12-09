@@ -8,7 +8,6 @@ import org.geeckodev.formadroid.adapters.DaysPagerAdapter;
 import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.fragments.DayFragment;
 import org.geeckodev.formadroid.model.Model;
-import org.geeckodev.formadroid.preferences.Preference;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,7 +28,7 @@ import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class Main extends FragmentActivity {
 	private static int PAGE_NBR = 5;
 
 	private FormaDroid fd;
@@ -110,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_search)
-			startActivity(new Intent(MainActivity.this, Preference.class));
+			startActivity(new Intent(Main.this, Preference.class));
 		return true;
 	}
 
