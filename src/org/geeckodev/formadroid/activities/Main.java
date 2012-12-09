@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -41,7 +42,7 @@ public class Main extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fd = (FormaDroid) this.getApplication();
-
+		
 		/* Construct the view */
 
 		setContentView(R.layout.activity_main);
@@ -98,6 +99,14 @@ public class Main extends FragmentActivity {
 
 		}
 		this.vpDays.setAdapter(this.paDays);
+		
+		/* Check if it is the first run */
+		
+		SharedPreferences prefs = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+		if (!prefs.getBoolean("HaveShownPrefs", false)) {
+			startActivity(new Intent(Main.this, Preference.class));
+			return;
+		}
 	}
 
 	@Override
