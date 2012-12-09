@@ -42,7 +42,7 @@ public class Main extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fd = (FormaDroid) this.getApplication();
-		
+
 		/* Construct the view */
 
 		setContentView(R.layout.activity_main);
@@ -52,9 +52,9 @@ public class Main extends FragmentActivity {
 
 		// Spinner
 		List<String> list = new ArrayList<String>();
-		for (String i : fd.model.getGroups()) {
-			list.add(i);
-		}
+		/*
+		 * for (String i : fd.model.getGroups()) { list.add(i); }
+		 */
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, list);
 		dataAdapter
@@ -65,7 +65,7 @@ public class Main extends FragmentActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int pos, long id) {
-				fd.model.selectGroup(fd.model.getGroups()[pos]);
+				// fd.model.selectGroup(fd.model.getGroups()[pos]);
 				new SynchronizeTask().execute(fd.model);
 			}
 
@@ -99,10 +99,11 @@ public class Main extends FragmentActivity {
 
 		}
 		this.vpDays.setAdapter(this.paDays);
-		
+
 		/* Check if it is the first run */
-		
-		SharedPreferences prefs = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+
+		SharedPreferences prefs = getSharedPreferences("MyPreferences",
+				Context.MODE_PRIVATE);
 		if (!prefs.getBoolean("HaveShownPrefs", false)) {
 			startActivity(new Intent(Main.this, Preference.class));
 			return;
@@ -130,8 +131,9 @@ public class Main extends FragmentActivity {
 
 		@Override
 		protected Integer doInBackground(Model... model) {
+			System.err.println("hi");
 			try {
-				model[0].build();
+				model[0].buildDays();
 			} catch (IOException e) {
 				return -1;
 			}
