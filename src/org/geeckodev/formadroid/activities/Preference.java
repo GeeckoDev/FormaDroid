@@ -1,8 +1,6 @@
 package org.geeckodev.formadroid.activities;
 
 import org.geeckodev.formadroid.R;
-
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -24,8 +22,8 @@ public class Preference extends PreferenceActivity implements
 
 		/* Indicate that the preferences were opened at least once */
 
-		SharedPreferences prefs = getSharedPreferences("MyPreferences",
-				Context.MODE_PRIVATE);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		SharedPreferences.Editor ed = prefs.edit();
 		ed.putBoolean("HaveShownPrefs", true);
 		ed.commit();

@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.geeckodev.formadroid.model.Day;
 import org.geeckodev.formadroid.model.Lesson;
+import org.geeckodev.formadroid.model.Group;
 
 public class DAO {
 	private final String url = "http://vpnetudiant.fr/formafetch/";
@@ -41,6 +42,19 @@ public class DAO {
 		return EntityUtils.toString(getResponseEntity);
 	}
 
+	public void findGroups(String estt, String dept, List<Group> groups)
+			throws IOException {
+		String data = retrieve(this.url + estt + "/" + dept + "/groups");
+		
+		groups.clear();
+
+		for (String i : data.split("\n")) {
+			String[] s = i.split(";");
+			
+			groups.add(new Group(s[0], s[1]));
+		}
+	}
+	
 	public void findDays(String estt, String dept, String group, List<Day> days)
 			throws IOException {
 		String data = retrieve(this.url + estt + "/" + dept + "/" + group);
@@ -65,5 +79,4 @@ public class DAO {
 
 		days.add(curr_day);
 	}
-
 }

@@ -7,12 +7,12 @@ import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.adapters.DaysPagerAdapter;
 import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.fragments.DayFragment;
+import org.geeckodev.formadroid.model.Group;
 import org.geeckodev.formadroid.model.Model;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
@@ -49,44 +49,18 @@ public class Main extends FragmentActivity {
 		this.sGroup = (Spinner) findViewById(R.id.sGroup);
 		this.btnRefresh = (Button) findViewById(R.id.btnRefresh);
 		this.vpDays = (ViewPager) findViewById(R.id.vpDays);
+		
+		/* Create the button */
 
-		// Spinner
-		List<String> list = new ArrayList<String>();
-		/*
-		 * for (String i : fd.model.getGroups()) { list.add(i); }
-		 */
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, list);
-		dataAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		this.sGroup.setAdapter(dataAdapter);
-
-		this.sGroup.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int pos, long id) {
-				// fd.model.selectGroup(fd.model.getGroups()[pos]);
-				new SynchronizeTask().execute(fd.model);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
-		this.sGroup.setSelection(Integer.valueOf(PreferenceManager
-				.getDefaultSharedPreferences(this)
-				.getString("groups_pref", "0")));
-
-		// Button
 		this.btnRefresh.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SynchronizeTask().execute(fd.model);
+				new SynchronizeDaysTask().execute(fd.model);
 			}
 		});
 
-		// ViewPager
+		/* Create the ViewPager */
+
 		this.paDays = new DaysPagerAdapter(super.getSupportFragmentManager());
 		for (int i = 0; i < PAGE_NBR; i++) {
 			Bundle b = new Bundle();
@@ -100,10 +74,14 @@ public class Main extends FragmentActivity {
 		}
 		this.vpDays.setAdapter(this.paDays);
 
+		/* Try to fetch the group list */
+
+		new SynchronizeGroupsTask().execute(fd.model);
+
 		/* Check if it is the first run */
 
-		SharedPreferences prefs = getSharedPreferences("MyPreferences",
-				Context.MODE_PRIVATE);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		if (!prefs.getBoolean("HaveShownPrefs", false)) {
 			startActivity(new Intent(Main.this, Preference.class));
 			return;
@@ -123,15 +101,62 @@ public class Main extends FragmentActivity {
 		return true;
 	}
 
-	public void update() {
-		this.paDays.update();
-	}
-
-	private class SynchronizeTask extends AsyncTask<Model, Void, Integer> {
-
+	private class SynchronizeGroupsTask extends AsyncTask<Model, Void, Integer> {
 		@Override
 		protected Integer doInBackground(Model... model) {
-			System.err.println("hi");
+			try {
+				model[0].buildGroups();
+			} catch (IOException e) {
+				return -1;
+			}
+
+			return 0;
+		}
+
+		protected void onPostExecute(Integer result) {
+			if (result != 0) {
+				Toast.makeText(Main.this,
+						"Impossible de récupérer la liste des groupes",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+
+			/* Update the spinner */
+
+			List<String> list = new ArrayList<String>();
+
+			for (Group i : fd.model.getGroups()) {
+				list.add(i.getName());
+			}
+			
+			ArrayAdapter<String> adapter;
+			adapter = new ArrayAdapter<String>(Main.this,
+					android.R.layout.simple_spinner_item, list);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			sGroup.setAdapter(adapter);
+
+			sGroup.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int pos, long id) {
+					fd.model.selectGroup(fd.model.getGroups().get(pos));
+					new SynchronizeDaysTask().execute(fd.model);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+			sGroup.setSelection(Integer.valueOf(PreferenceManager
+					.getDefaultSharedPreferences(Main.this)
+					.getString("groups_pref", "0")));
+		}
+	}
+
+	private class SynchronizeDaysTask extends AsyncTask<Model, Void, Integer> {
+		@Override
+		protected Integer doInBackground(Model... model) {
 			try {
 				model[0].buildDays();
 			} catch (IOException e) {
@@ -142,16 +167,15 @@ public class Main extends FragmentActivity {
 		}
 
 		protected void onPostExecute(Integer result) {
-			Context ctx = getApplicationContext();
-
 			if (result != 0) {
-				Toast.makeText(ctx, "Erreur de synchronisation",
+				Toast.makeText(Main.this, "Erreur de synchronisation",
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
 
-			update();
-			Toast.makeText(ctx, "Synchronisation terminée", Toast.LENGTH_SHORT)
+			paDays.update();
+
+			Toast.makeText(Main.this, "Synchronisation terminée", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}

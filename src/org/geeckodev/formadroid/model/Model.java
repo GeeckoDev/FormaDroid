@@ -11,6 +11,7 @@ public class Model {
 	private List<Establishment> estts;
 	private List<Department> depts;
 	private List<Group> groups;
+	private Group selectedGroup;
 	private List<Day> days;
 	private DAO dao;
 	private boolean pending;
@@ -24,6 +25,10 @@ public class Model {
 		this.pending = false;
 	}
 
+	public void selectGroup(Group group) {
+		this.selectedGroup = group;
+	}
+	
 	public Day getCurrentDay(int offset) {
 		int current = (new Date().getDay() + 6) % 7;
 
@@ -33,16 +38,33 @@ public class Model {
 
 		return this.days.get(current + offset);
 	}
-
+	
+	public List<Group> getGroups() {
+		return this.groups;
+	}
+	
 	public boolean isPending() {
 		return this.pending;
 	}
 
+	public void buildGroups() throws IOException {
+		this.pending = true;
+
+		try {
+			this.dao.findGroups("17000", "infolarochelle", this.groups);
+		} catch (IOException e) {
+			this.pending = false;
+			throw e;
+		}
+
+		this.pending = false;
+	}
+	
 	public void buildDays() throws IOException {
 		this.pending = true;
 
 		try {
-			this.dao.findDays("17000", "infolarochelle", "6", this.days);
+			this.dao.findDays("17000", "infolarochelle", this.selectedGroup.getValue(), this.days);
 		} catch (IOException e) {
 			this.pending = false;
 			throw e;
