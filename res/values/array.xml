@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
-
-    <string-array name="listGroups">
-        <item>Groupe A</item>
-        <item>Groupe B</item>
-        <item>Groupe C</item>
-        <item>Groupe D</item>
-        <item>GI</item>
-        <item>ID</item>
-        <item>IE</item>
-        <item>LP</item>
-    </string-array>
-
-    <string-array name="listGroupsValues">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-    </string-array>
-
+    <string-array name="listEstts"></string-array>
+    <string-array name="listEsttsValues"></string-array>
+    <string-array name="listDepts"></string-array>
+    <string-array name="listDeptsValues"></string-array>
+    <string-array name="listGroups"></string-array>
+    <string-array name="listGroupsValues"></string-array>
 </resources>
