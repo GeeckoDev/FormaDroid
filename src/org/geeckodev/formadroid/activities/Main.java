@@ -55,7 +55,7 @@ public class Main extends FragmentActivity {
 		this.btnRefresh.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SynchronizeDaysTask().execute(fd.model);
+				new SyncDaysTask().execute(fd.model);
 			}
 		});
 
@@ -76,7 +76,7 @@ public class Main extends FragmentActivity {
 
 		/* Try to fetch the group list */
 
-		new SynchronizeGroupsTask().execute(fd.model);
+		new SyncGroupsTask().execute(fd.model);
 
 		/* Check if it is the first run */
 
@@ -101,7 +101,7 @@ public class Main extends FragmentActivity {
 		return true;
 	}
 
-	private class SynchronizeGroupsTask extends AsyncTask<Model, Void, Integer> {
+	private class SyncGroupsTask extends AsyncTask<Model, Void, Integer> {
 		@Override
 		protected Integer doInBackground(Model... model) {
 			try {
@@ -139,22 +139,18 @@ public class Main extends FragmentActivity {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int pos, long id) {
-					fd.model.selectGroup(fd.model.getGroups().get(pos));
-					new SynchronizeDaysTask().execute(fd.model);
+					fd.model.selectGroup(fd.model.getGroups().get(pos).getValue());
+					new SyncDaysTask().execute(fd.model);
 				}
 
 				@Override
 				public void onNothingSelected(AdapterView<?> arg0) {
 				}
 			});
-
-			sGroup.setSelection(Integer.valueOf(PreferenceManager
-					.getDefaultSharedPreferences(Main.this)
-					.getString("groups_pref", "0")));
 		}
 	}
 
-	private class SynchronizeDaysTask extends AsyncTask<Model, Void, Integer> {
+	public class SyncDaysTask extends AsyncTask<Model, Void, Integer> {
 		@Override
 		protected Integer doInBackground(Model... model) {
 			try {

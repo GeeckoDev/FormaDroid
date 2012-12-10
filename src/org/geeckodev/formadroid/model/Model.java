@@ -11,10 +11,10 @@ public class Model {
 	private List<Establishment> estts;
 	private List<Department> depts;
 	private List<Group> groups;
+	private List<Day> days;
 	private String selectedEstt;
 	private String selectedDept;
 	private String selectedGroup;
-	private List<Day> days;
 	private DAO dao;
 	private boolean pending;
 
@@ -22,24 +22,24 @@ public class Model {
 		this.estts = new ArrayList<Establishment>();
 		this.depts = new ArrayList<Department>();
 		this.groups = new ArrayList<Group>();
+		this.days = new ArrayList<Day>();
 		this.selectedEstt = null;
 		this.selectedDept = null;
 		this.selectedGroup = null;
-		this.days = new ArrayList<Day>();
 		this.dao = new DAO();
 		this.pending = false;
 	}
 
-	public void selectEstablishment(Establishment estt) {
-		this.selectedEstt = estt.getValue();
+	public void selectEstablishment(String estt) {
+		this.selectedEstt = estt;
 	}
 
-	public void selectDepartment(Department dept) {
-		this.selectedDept = dept.getValue();
+	public void selectDepartment(String dept) {
+		this.selectedDept = dept;
 	}
 
-	public void selectGroup(Group group) {
-		this.selectedGroup = group.getValue();
+	public void selectGroup(String group) {
+		this.selectedGroup = group;
 	}
 
 	public List<Establishment> getEstablishments() {
