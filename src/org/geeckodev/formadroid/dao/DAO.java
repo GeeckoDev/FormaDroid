@@ -59,7 +59,6 @@ public class DAO {
 
 	public void findDepartments(String estt, List<Department> depts)
 			throws IOException {
-		System.err.println(this.url + estt + "/depts");
 		String data = retrieve(this.url + estt + "/depts");
 
 		depts.clear();

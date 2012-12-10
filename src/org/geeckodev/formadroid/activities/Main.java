@@ -161,11 +161,11 @@ public class Main extends FragmentActivity {
 					.getDefaultSharedPreferences(Main.this);
 			String pref = prefs.getString("groups_pref", "0");
 			int i = 0;
+
 			for (Group group : fd.model.getGroups()) {
-				if (group.getValue() == pref) {
+				if (pref.contains(group.getValue())) {
 					sGroup.setSelection(i);
 				}
-
 				i++;
 			}
 		}

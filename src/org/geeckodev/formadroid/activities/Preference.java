@@ -132,7 +132,6 @@ public class Preference extends PreferenceActivity implements
 			for (Department dept : depts) {
 				entries[i] = dept.getName();
 				values[i] = dept.getValue();
-				System.out.println(dept.getName());
 				i++;
 			}
 
