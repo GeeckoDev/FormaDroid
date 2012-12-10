@@ -57,16 +57,14 @@ public class Preference extends PreferenceActivity implements
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {		
+	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
 		if (key.contains("estts_pref")) {
 			fd.model.selectEstablishment(sp.getString("estts_pref", "0"));
 			new SyncDeptsTask().execute(fd.model);
-		}
-		else if (key.contains("depts_pref")) {
+		} else if (key.contains("depts_pref")) {
 			fd.model.selectDepartment(sp.getString("depts_pref", "0"));
 			new SyncGroupsTask().execute(fd.model);
-		}
-		else if (key.contains("groups_pref")) {
+		} else if (key.contains("groups_pref")) {
 			fd.model.selectGroup(sp.getString("groups_pref", "0"));
 		}
 	}

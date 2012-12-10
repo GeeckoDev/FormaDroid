@@ -49,7 +49,7 @@ public class Main extends FragmentActivity {
 		this.sGroup = (Spinner) findViewById(R.id.sGroup);
 		this.btnRefresh = (Button) findViewById(R.id.btnRefresh);
 		this.vpDays = (ViewPager) findViewById(R.id.vpDays);
-		
+
 		/* Create the button */
 
 		this.btnRefresh.setOnClickListener(new OnClickListener() {
@@ -74,9 +74,20 @@ public class Main extends FragmentActivity {
 		}
 		this.vpDays.setAdapter(this.paDays);
 
-		/* Try to fetch the group list */
+		/* Create the spinner */
 
-		new SyncGroupsTask().execute(fd.model);
+		sGroup.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				fd.model.selectGroup(fd.model.getGroups().get(pos).getValue());
+				new SyncDaysTask().execute(fd.model);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
 
 		/* Check if it is the first run */
 
@@ -86,6 +97,15 @@ public class Main extends FragmentActivity {
 			startActivity(new Intent(Main.this, Preference.class));
 			return;
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		/* Try to fetch the group list */
+
+		new SyncGroupsTask().execute(fd.model);
 	}
 
 	@Override
@@ -123,30 +143,31 @@ public class Main extends FragmentActivity {
 
 			/* Update the spinner */
 
+			// Get the group name list
 			List<String> list = new ArrayList<String>();
-
 			for (Group i : fd.model.getGroups()) {
 				list.add(i.getName());
 			}
-			
+
+			// Set the adapter
 			ArrayAdapter<String> adapter;
 			adapter = new ArrayAdapter<String>(Main.this,
 					android.R.layout.simple_spinner_item, list);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			sGroup.setAdapter(adapter);
 
-			sGroup.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int pos, long id) {
-					fd.model.selectGroup(fd.model.getGroups().get(pos).getValue());
-					new SyncDaysTask().execute(fd.model);
+			// Set to the preferred group
+			SharedPreferences prefs = PreferenceManager
+					.getDefaultSharedPreferences(Main.this);
+			String pref = prefs.getString("groups_pref", "0");
+			int i = 0;
+			for (Group group : fd.model.getGroups()) {
+				if (group.getValue() == pref) {
+					sGroup.setSelection(i);
 				}
 
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-				}
-			});
+				i++;
+			}
 		}
 	}
 
@@ -171,8 +192,8 @@ public class Main extends FragmentActivity {
 
 			paDays.update();
 
-			Toast.makeText(Main.this, "Synchronisation terminée", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(Main.this, "Synchronisation terminée",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 }

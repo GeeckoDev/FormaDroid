@@ -1,9 +1,6 @@
 package org.geeckodev.formadroid.dao;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -46,9 +43,9 @@ public class DAO {
 
 		return EntityUtils.toString(getResponseEntity);
 	}
-	
+
 	public void findEstablishments(List<Establishment> estts)
-			throws IOException {		
+			throws IOException {
 		String data = retrieve(this.url + "estts");
 
 		estts.clear();
