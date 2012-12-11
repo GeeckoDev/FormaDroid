@@ -71,9 +71,6 @@ public class Preference extends PreferenceActivity implements
 
 		/* Preference change listener */
 		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-		
-		ActionBar a = getActionBar();
-		a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
 	}
 
 	@Override

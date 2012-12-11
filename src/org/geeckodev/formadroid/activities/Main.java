@@ -191,9 +191,6 @@ public class Main extends FragmentActivity {
 			}
 
 			paDays.update();
-
-			Toast.makeText(Main.this, "Synchronisation terminée",
-					Toast.LENGTH_SHORT).show();
 		}
 	}
 }
