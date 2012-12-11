@@ -43,12 +43,4 @@ public class Day implements Iterable<Lesson> {
 	public void clear() {
 		this.lessons.clear();
 	}
-
-	public void print() {
-		System.out.println(">>> " + this.name);
-
-		for (Lesson i : this.lessons) {
-			i.print();
-		}
-	}
 }

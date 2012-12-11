@@ -69,8 +69,4 @@ public class Lesson {
 				|| (begin_hour == current_hour && begin_minute <= current_minute) || (end_hour == current_hour && end_minute >= current_minute));
 
 	}
-
-	public void print() {
-		System.out.println(this.name + " de " + this.begin + " à " + this.end);
-	}
 }
