@@ -91,12 +91,9 @@ public class Main extends FragmentActivity {
 
 		/* Check if it is the first run */
 
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		if (!prefs.getBoolean("HaveShownPrefs", false)) {
+		if (PreferenceManager.getDefaultSharedPreferences(this)
+				.getString("groups_pref", "none").equals("none"))
 			startActivity(new Intent(Main.this, Preference.class));
-			return;
-		}
 	}
 
 	@Override
