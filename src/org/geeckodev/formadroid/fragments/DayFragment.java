@@ -57,7 +57,7 @@ public class DayFragment extends Fragment {
 		TextView tvToday = (TextView) view.findViewById(R.id.tvToday);
 
 		tvToday.setText("Cours du " + day.getName());
-
+		
 		LessonAdapter lessonAdapter = new LessonAdapter(getActivity(), day);
 		lvLesson.setAdapter(lessonAdapter);
 	}

@@ -1,6 +1,7 @@
 package org.geeckodev.formadroid.dao;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -8,8 +9,11 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.geeckodev.formadroid.model.Day;
+import org.geeckodev.formadroid.model.Department;
+import org.geeckodev.formadroid.model.Establishment;
 import org.geeckodev.formadroid.model.Lesson;
-import org.geeckodev.formadroid.model.Week;
+import org.geeckodev.formadroid.model.Group;
 
 public class DAO {
 	private final String url = "http://vpnetudiant.fr/formafetch/";
@@ -40,28 +44,67 @@ public class DAO {
 		return EntityUtils.toString(getResponseEntity);
 	}
 
-	private void build(String data, Week week) {
-		int day = -1;
+	public void findEstablishments(List<Establishment> estts)
+			throws IOException {
+		String data = retrieve(this.url + "estts");
 
-		week.clear();
+		estts.clear();
 
 		for (String i : data.split("\n")) {
-			if (i.startsWith(">")) {
-				day++;
-				continue;
-			}
+			String[] s = i.split(";");
 
-			String begin = i.substring(0, 5);
-			String end = i.substring(6, 11);
-			String name = i.substring(12, i.length());
-
-			week.getDay(day).addLesson(new Lesson(begin, end, name));
+			estts.add(new Establishment(s[0], s[1]));
 		}
 	}
 
-	public void find(String group, Week week, Week nextWeek) throws IOException {
-		build(retrieve(this.url + group), week);
-		// build(retrieve(this.url + group + "_next"), nextWeek);
+	public void findDepartments(String estt, List<Department> depts)
+			throws IOException {
+		String data = retrieve(this.url + estt + "/depts");
+
+		depts.clear();
+
+		for (String i : data.split("\n")) {
+			String[] s = i.split(";");
+
+			depts.add(new Department(s[0], s[1]));
+		}
 	}
 
+	public void findGroups(String estt, String dept, List<Group> groups)
+			throws IOException {
+		String data = retrieve(this.url + estt + "/" + dept + "/groups");
+
+		groups.clear();
+
+		for (String i : data.split("\n")) {
+			String[] s = i.split(";");
+
+			groups.add(new Group(s[0], s[1]));
+		}
+	}
+
+	public void findDays(String estt, String dept, String group, List<Day> days)
+			throws IOException {
+		String data = retrieve(this.url + estt + "/" + dept + "/" + group);
+		Day curr_day = null;
+		int count = 0;
+
+		days.clear();
+
+		for (String i : data.split("\n")) {
+			if (!i.contains(";")) {
+				if (curr_day != null) {
+					days.add(curr_day);
+				}
+
+				curr_day = new Day(count++, i);
+				continue;
+			}
+
+			String[] s = i.split(";");
+			curr_day.addLesson(new Lesson(s[0], s[1], s[3]));
+		}
+
+		days.add(curr_day);
+	}
 }
