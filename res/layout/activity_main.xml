@@ -1,40 +1,60 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="fill"
-    android:orientation="vertical"
-    android:padding="5dip" >
-
-    <TextView
-        android:id="@+id/tvGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/selectedGroup"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="-5dp"
+        android:gravity="fill"
+        android:orientation="vertical"
+        android:padding="5dip" >
 
-        <Spinner
-            android:id="@+id/sGroup"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.82" />
-
-        <Button
-            android:id="@+id/btnRefresh"
+        <TextView
+            android:id="@+id/tvGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MAJ" />
+            android:text="@string/selectedGroup"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/sGroup"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.82" />
+
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAJ" />
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/vpDays"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dip" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/vpDays"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        ads:adSize="BANNER"
+        ads:adUnitId=""
+        ads:loadAdOnCreate="true"
+        android:gravity="fill" />
 
-</LinearLayout>
+</RelativeLayout>
