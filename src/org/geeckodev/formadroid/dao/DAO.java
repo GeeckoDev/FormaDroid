@@ -101,7 +101,7 @@ public class DAO {
 			}
 
 			String[] s = i.split(";");
-			curr_day.addLesson(new Lesson(s[0], s[1], s[3]));
+			curr_day.addLesson(new Lesson(s[0], s[1], s[2], s[3]));
 		}
 
 		days.add(curr_day);

@@ -42,6 +42,7 @@ public class LessonAdapter extends BaseAdapter {
 	}
 
 	private class ViewHolder {
+		TextView tvSubgroup;
 		TextView tvName;
 		TextView tvBegin;
 		TextView tvEnd;
@@ -54,6 +55,8 @@ public class LessonAdapter extends BaseAdapter {
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.itemlesson, null);
+			holder.tvSubgroup = (TextView) convertView
+					.findViewById(R.id.tvSubgroup);
 			holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
 			holder.tvBegin = (TextView) convertView.findViewById(R.id.tvBegin);
 			holder.tvEnd = (TextView) convertView.findViewById(R.id.tvEnd);
@@ -77,6 +80,9 @@ public class LessonAdapter extends BaseAdapter {
 
 		/* Set text */
 
+		if (lesson.getSubgroup() != "") {
+			holder.tvSubgroup.setText(lesson.getSubgroup() + "  ");
+		}
 		holder.tvName.setText(lesson.getName());
 		holder.tvBegin.setText(lesson.getBegin());
 		holder.tvEnd.setText(lesson.getEnd());

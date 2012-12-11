@@ -7,24 +7,30 @@ import java.util.GregorianCalendar;
 public class Lesson {
 	private String begin;
 	private String end;
+	private String subgroup;
 	private String name;
 
-	public Lesson(String begin, String end, String name) {
+	public Lesson(String begin, String end, String subgroup, String name) {
 		this.begin = begin;
 		this.end = end;
+		this.subgroup = subgroup;
 		this.name = name;
 	}
 
 	public String getBegin() {
-		return begin;
+		return this.begin;
 	}
 
 	public String getEnd() {
-		return end;
+		return this.end;
+	}
+
+	public String getSubgroup() {
+		return this.subgroup;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	private int[] getCurrentMinuteHour() {

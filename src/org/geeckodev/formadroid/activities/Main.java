@@ -88,7 +88,7 @@ public class Main extends FragmentActivity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		
+
 		/* Check if it is the first run */
 
 		SharedPreferences prefs = PreferenceManager
