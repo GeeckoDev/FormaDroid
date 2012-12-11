@@ -1,5 +1,7 @@
 package org.geeckodev.formadroid.adapters;
 
+import java.util.Calendar;
+
 import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.application.FormaDroid;
 import org.geeckodev.formadroid.model.Day;
@@ -61,15 +63,19 @@ public class LessonAdapter extends BaseAdapter {
 		}
 
 		Lesson lesson = this.day.getLesson(i);
+		int curr_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-		if ((this.day.getId() < fd.model.getCurrentDay(0).getId())
-				|| (this.day.getId() == fd.model.getCurrentDay(0).getId())) {
+		/* Change the color depending on the current day and hour */
+
+		if (this.day.getNumber() == curr_day) {
 			if (lesson.isFinished())
 				holder.tvName.setTextColor(Color.GRAY);
 			else if (lesson.isOngoing()) {
 				holder.tvName.setTextColor(Color.BLUE);
 			}
 		}
+
+		/* Set text */
 
 		holder.tvName.setText(lesson.getName());
 		holder.tvBegin.setText(lesson.getBegin());

@@ -87,7 +87,6 @@ public class DAO {
 			throws IOException {
 		String data = retrieve(this.url + estt + "/" + dept + "/" + group);
 		Day curr_day = null;
-		int count = 0;
 
 		days.clear();
 
@@ -97,7 +96,7 @@ public class DAO {
 					days.add(curr_day);
 				}
 
-				curr_day = new Day(count++, i);
+				curr_day = new Day(i);
 				continue;
 			}
 
