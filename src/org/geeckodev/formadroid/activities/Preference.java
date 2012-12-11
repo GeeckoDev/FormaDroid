@@ -30,28 +30,23 @@ public class Preference extends PreferenceActivity implements
 	}
 
 	public void loadSettings() {
-		if (!PreferenceManager.getDefaultSharedPreferences(this)
-				.getString("estts_pref", "none").equals("none")) {
-			fd.model.selectEstablishment(PreferenceManager
-					.getDefaultSharedPreferences(this).getString("estts_pref",
-							"0"));
-			new SyncDeptsTask().execute(fd.model);
-			((ListPreference) findPreference("estts_pref"))
-					.setValue(PreferenceManager.getDefaultSharedPreferences(
-							this).getString("estts_pref", "0"));
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String estts = prefs.getString("estts_pref", "none");
+		String depts = prefs.getString("depts_pref", "none");
+		String groups = prefs.getString("groups_pref", "none");
 
-			if (!PreferenceManager.getDefaultSharedPreferences(this)
-					.getString("depts_pref", "none").equals("none")) {
-				fd.model.selectDepartment(PreferenceManager
-						.getDefaultSharedPreferences(this).getString(
-								"depts_pref", "0"));
+		if (!estts.equals("none")) {
+			fd.model.selectEstablishment(estts);
+			new SyncDeptsTask().execute(fd.model);
+			((ListPreference) findPreference("estts_pref")).setValue(estts);
+
+			if (!depts.equals("none")) {
+				fd.model.selectDepartment(depts);
 				new SyncGroupsTask().execute(fd.model);
-				((ListPreference) findPreference("depts_pref"))
-						.setValue(PreferenceManager
-								.getDefaultSharedPreferences(this).getString(
-										"depts_pref", "0"));
-				if (PreferenceManager.getDefaultSharedPreferences(this)
-						.getString("groups_pref", "none").equals("none"))
+				((ListPreference) findPreference("depts_pref")).setValue(depts);
+
+				if (groups.equals("none"))
 					Toast.makeText(this, "Aucun groupe n'a été défini",
 							Toast.LENGTH_SHORT).show();
 			}

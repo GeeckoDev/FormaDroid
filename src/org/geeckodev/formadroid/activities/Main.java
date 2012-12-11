@@ -92,8 +92,9 @@ public class Main extends FragmentActivity {
 		/* Check if it is the first run */
 
 		if (PreferenceManager.getDefaultSharedPreferences(this)
-				.getString("groups_pref", "none").equals("none"))
+				.getString("groups_pref", "none").equals("none")) {
 			startActivity(new Intent(Main.this, Preference.class));
+		}
 	}
 
 	@Override
@@ -102,7 +103,10 @@ public class Main extends FragmentActivity {
 
 		/* Try to fetch the group list */
 
-		new SyncGroupsTask().execute(fd.model);
+		if (!PreferenceManager.getDefaultSharedPreferences(this)
+				.getString("groups_pref", "none").equals("none")) {
+			new SyncGroupsTask().execute(fd.model);
+		}
 	}
 
 	@Override
