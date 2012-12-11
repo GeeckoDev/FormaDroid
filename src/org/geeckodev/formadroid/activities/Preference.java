@@ -10,7 +10,6 @@ import org.geeckodev.formadroid.model.Establishment;
 import org.geeckodev.formadroid.model.Group;
 import org.geeckodev.formadroid.model.Model;
 
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-@SuppressLint("NewApi")
 public class Preference extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
 	private FormaDroid fd;
@@ -113,10 +111,6 @@ public class Preference extends PreferenceActivity implements
 
 		protected void onPostExecute(Integer result) {
 			if (result != 0) {
-				Toast.makeText(Preference.this,
-						"Impossible de récupérer la liste des établissements",
-
-						Toast.LENGTH_SHORT).show();
 				return;
 			}
 
@@ -151,9 +145,6 @@ public class Preference extends PreferenceActivity implements
 
 		protected void onPostExecute(Integer result) {
 			if (result != 0) {
-				Toast.makeText(Preference.this,
-						"Impossible de récupérer la liste des départements",
-						Toast.LENGTH_SHORT).show();
 				return;
 			}
 
@@ -188,9 +179,6 @@ public class Preference extends PreferenceActivity implements
 
 		protected void onPostExecute(Integer result) {
 			if (result != 0) {
-				Toast.makeText(Preference.this,
-						"Impossible de récupérer la liste des groupes",
-						Toast.LENGTH_SHORT).show();
 				return;
 			}
 
