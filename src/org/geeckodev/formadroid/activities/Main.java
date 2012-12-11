@@ -3,6 +3,7 @@ package org.geeckodev.formadroid.activities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.adapters.DaysPagerAdapter;
 import org.geeckodev.formadroid.application.FormaDroid;
@@ -10,13 +11,14 @@ import org.geeckodev.formadroid.fragments.DayFragment;
 import org.geeckodev.formadroid.model.Group;
 import org.geeckodev.formadroid.model.Model;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -27,8 +29,8 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
@@ -47,10 +49,11 @@ public class Main extends FragmentActivity {
 		fd = (FormaDroid) this.getApplication();
 
 		/* Construct the view */
-
 		setContentView(R.layout.activity_main);
-		ActionBar a = getActionBar();
-		a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
+		if (Build.VERSION.SDK_INT >= 14.0) {
+			ActionBar a = getActionBar();
+			a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
+		}
 		this.sGroup = (Spinner) findViewById(R.id.sGroup);
 		this.btnRefresh = (Button) findViewById(R.id.btnRefresh);
 		this.vpDays = (ViewPager) findViewById(R.id.vpDays);
@@ -94,8 +97,7 @@ public class Main extends FragmentActivity {
 
 		if (PreferenceManager.getDefaultSharedPreferences(this).getString("groups_pref", "none").equals("none"))
 			startActivity(new Intent(Main.this, Preference.class));
-		
-		
+
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
@@ -46,32 +47,35 @@ public class Preference extends PreferenceActivity implements
 				new SyncGroupsTask().execute(fd.model);
 				((ListPreference) findPreference("depts_pref")).setValue(PreferenceManager
 						.getDefaultSharedPreferences(this).getString("depts_pref", "0"));
-				if (PreferenceManager.getDefaultSharedPreferences(this).getString("groups_pref", "none").equals("none"))
+				if (PreferenceManager.getDefaultSharedPreferences(this).getString("groups_pref", "none")
+						.equals("none"))
 					Toast.makeText(this, "Aucun groupe n'a été défini", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		fd = (FormaDroid) this.getApplication();
 		/* Inflate from XML */
 		this.addPreferencesFromResource(R.xml.preferences);
-		
+
 		/* Try to fetch the establishment list */
 		new SyncEsttsTask().execute(fd.model);
-		
-		/*Loading preferences already existing*/
+
+		/* Loading preferences already existing */
 		this.loadSettings();
 
 		/* Preference change listener */
 		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-		
-		ActionBar a = getActionBar();
-		a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
+
+		if (Build.VERSION.SDK_INT >= 14.0) {
+			ActionBar a = getActionBar();
+			a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
+		}
+
 	}
 
 	@Override
@@ -87,7 +91,7 @@ public class Preference extends PreferenceActivity implements
 			new SyncGroupsTask().execute(fd.model);
 		} else if (key.contains("groups_pref")) {
 			fd.model.selectGroup(sp.getString("groups_pref", "0"));
-			/*Return to previous Activity*/
+			/* Return to previous Activity */
 			this.finish();
 		}
 	}
