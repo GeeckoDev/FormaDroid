@@ -10,6 +10,8 @@ import org.geeckodev.formadroid.model.Establishment;
 import org.geeckodev.formadroid.model.Group;
 import org.geeckodev.formadroid.model.Model;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class Preference extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
 	private FormaDroid fd;
@@ -29,43 +32,66 @@ public class Preference extends PreferenceActivity implements
 		lp.setEntryValues(values);
 	}
 
+	public void loadSettings() {
+		if (!PreferenceManager.getDefaultSharedPreferences(this).getString("estts_pref", "none").equals("none")) {
+			fd.model.selectEstablishment(PreferenceManager.getDefaultSharedPreferences(this).getString(
+					"estts_pref", "0"));
+			new SyncDeptsTask().execute(fd.model);
+			((ListPreference) findPreference("estts_pref")).setValue(PreferenceManager
+					.getDefaultSharedPreferences(this).getString("estts_pref", "0"));
+
+			if (!PreferenceManager.getDefaultSharedPreferences(this).getString("depts_pref", "none")
+					.equals("none")) {
+				fd.model.selectDepartment(PreferenceManager.getDefaultSharedPreferences(this).getString(
+						"depts_pref", "0"));
+				new SyncGroupsTask().execute(fd.model);
+				((ListPreference) findPreference("depts_pref")).setValue(PreferenceManager
+						.getDefaultSharedPreferences(this).getString("depts_pref", "0"));
+				if (PreferenceManager.getDefaultSharedPreferences(this).getString("groups_pref", "none").equals("none"))
+					Toast.makeText(this, "Aucun groupe n'a été défini", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		fd = (FormaDroid) this.getApplication();
 
-		/* Try to fetch the establishment list */
-
-		new SyncEsttsTask().execute(fd.model);
-
-		/* Indicate that the preferences were opened at least once */
-
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor ed = prefs.edit();
-		ed.putBoolean("HaveShownPrefs", true);
-		ed.commit();
-
 		/* Inflate from XML */
-
 		this.addPreferencesFromResource(R.xml.preferences);
+		
+		/* Try to fetch the establishment list */
+		new SyncEsttsTask().execute(fd.model);
+		
+		/* Loading preferences already existing*/
+		this.loadSettings();
 
 		/* Preference change listener */
-
-		PreferenceManager.getDefaultSharedPreferences(this)
-				.registerOnSharedPreferenceChangeListener(this);
+		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+		
+		ActionBar a = getActionBar();
+		a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
 		if (key.contains("estts_pref")) {
+			((ListPreference) findPreference("depts_pref")).setEnabled(false);
+			((ListPreference) findPreference("groups_pref")).setEnabled(false);
 			fd.model.selectEstablishment(sp.getString("estts_pref", "0"));
 			new SyncDeptsTask().execute(fd.model);
 		} else if (key.contains("depts_pref")) {
+			((ListPreference) findPreference("groups_pref")).setEnabled(false);
 			fd.model.selectDepartment(sp.getString("depts_pref", "0"));
 			new SyncGroupsTask().execute(fd.model);
 		} else if (key.contains("groups_pref")) {
 			fd.model.selectGroup(sp.getString("groups_pref", "0"));
+
+			/* Return to previous Activity */
+			this.finish();
 		}
 	}
 
@@ -85,6 +111,7 @@ public class Preference extends PreferenceActivity implements
 			if (result != 0) {
 				Toast.makeText(Preference.this,
 						"Impossible de récupérer la liste des établissements",
+
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
@@ -101,6 +128,8 @@ public class Preference extends PreferenceActivity implements
 			}
 
 			Preference.this.setEntries("estts_pref", entries, values);
+
+			((ListPreference) findPreference("estts_pref")).setEnabled(true);
 		}
 	}
 
@@ -136,6 +165,8 @@ public class Preference extends PreferenceActivity implements
 			}
 
 			Preference.this.setEntries("depts_pref", entries, values);
+
+			((ListPreference) findPreference("depts_pref")).setEnabled(true);
 		}
 	}
 
@@ -171,6 +202,8 @@ public class Preference extends PreferenceActivity implements
 			}
 
 			Preference.this.setEntries("groups_pref", entries, values);
+
+			((ListPreference) findPreference("groups_pref")).setEnabled(true);
 		}
 	}
 }
