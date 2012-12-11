@@ -15,6 +15,8 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
@@ -53,6 +56,9 @@ public class Main extends FragmentActivity {
 		if (Build.VERSION.SDK_INT >= 14.0) {
 			ActionBar a = getActionBar();
 			a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
+			int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+			TextView yourTextView = (TextView)findViewById(titleId);
+			yourTextView.setTextColor(Color.WHITE);
 		}
 		this.sGroup = (Spinner) findViewById(R.id.sGroup);
 		this.btnRefresh = (Button) findViewById(R.id.btnRefresh);

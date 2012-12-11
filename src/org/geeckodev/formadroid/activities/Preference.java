@@ -13,12 +13,15 @@ import org.geeckodev.formadroid.model.Model;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
@@ -74,6 +77,9 @@ public class Preference extends PreferenceActivity implements
 		if (Build.VERSION.SDK_INT >= 14.0) {
 			ActionBar a = getActionBar();
 			a.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue));
+			int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+			TextView yourTextView = (TextView)findViewById(titleId);
+			yourTextView.setTextColor(Color.WHITE);
 		}
 
 	}
