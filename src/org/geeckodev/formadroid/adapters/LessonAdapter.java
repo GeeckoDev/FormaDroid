@@ -9,6 +9,7 @@ import org.geeckodev.formadroid.model.Lesson;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class LessonAdapter extends BaseAdapter {
 		/* Set text */
 
 		if (lesson.getSubgroup() != "") {
+			holder.tvSubgroup.setTypeface(null, Typeface.ITALIC);
 			holder.tvSubgroup.setText(lesson.getSubgroup() + "  ");
 		}
 		holder.tvName.setText(lesson.getName());
