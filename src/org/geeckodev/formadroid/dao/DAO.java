@@ -7,7 +7,13 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.geeckodev.formadroid.model.Day;
 import org.geeckodev.formadroid.model.Department;
@@ -20,7 +26,14 @@ public class DAO {
 	private DefaultHttpClient client;
 
 	public DAO() {
-		this.client = new DefaultHttpClient();
+		/* Use ThreadSafeClientConnManager to avoid crashes on Android 2.x */
+
+		BasicHttpParams params = new BasicHttpParams();
+		SchemeRegistry sr = new SchemeRegistry();
+		PlainSocketFactory psf = PlainSocketFactory.getSocketFactory();
+		sr.register(new Scheme("http", psf, 80));
+		ClientConnectionManager cm = new ThreadSafeClientConnManager(params, sr);
+		this.client = new DefaultHttpClient(cm, params);
 	}
 
 	private String retrieve(String url) throws IOException {
