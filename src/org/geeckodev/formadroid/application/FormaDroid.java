@@ -22,5 +22,6 @@ public class FormaDroid extends Application {
 		this.model.selectEstablishment(prefs.getString("estts_pref", "0"));
 		this.model.selectDepartment(prefs.getString("depts_pref", "0"));
 		this.model.selectGroup(prefs.getString("groups_pref", "0"));
+		this.model.setSubgroup(prefs.getString("subgroup_pref", "0"));
 	}
 }

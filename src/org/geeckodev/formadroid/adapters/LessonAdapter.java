@@ -1,6 +1,8 @@
 package org.geeckodev.formadroid.adapters;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.geeckodev.formadroid.R;
 import org.geeckodev.formadroid.application.FormaDroid;
@@ -29,12 +31,26 @@ public class LessonAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return this.day.size();
+		int size = 0;
+		for (Lesson lesson : this.day) {
+			if (lesson.matchesSubgroup()) {
+				size++;
+			}
+		}
+		return size;
 	}
 
 	@Override
 	public Object getItem(int i) {
-		return this.day.getLesson(i);
+		List<Lesson> match = new ArrayList<Lesson>();
+		
+		for (Lesson lesson : this.day) {
+			if (lesson.matchesSubgroup()) {
+				match.add(lesson);
+			}
+		}
+		
+		return match.get(i);
 	}
 
 	@Override
@@ -66,7 +82,7 @@ public class LessonAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		Lesson lesson = this.day.getLesson(i);
+		Lesson lesson = (Lesson)getItem(i);
 		int curr_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
 		/* Change the color depending on the current day and hour */

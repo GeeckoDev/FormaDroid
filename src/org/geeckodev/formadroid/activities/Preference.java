@@ -89,6 +89,8 @@ public class Preference extends PreferenceActivity implements
 
 			/* Return to previous Activity */
 			this.finish();
+		} else if (key.contains("subgroup_pref")) {
+			fd.model.setSubgroup(sp.getString("subgroup_pref", "0"));
 		}
 	}
 

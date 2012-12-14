@@ -6,4 +6,14 @@
     <string-array name="listDeptsValues"></string-array>
     <string-array name="listGroups"></string-array>
     <string-array name="listGroupsValues"></string-array>
+    <string-array name="listSubgroup">
+        <item>Tout afficher</item>
+        <item>Afficher groupe 1</item>
+        <item>Afficher groupe 2</item>
+    </string-array>
+    <string-array name="listSubgroupValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

@@ -16,6 +16,7 @@ public class Model {
 	private String selectedEstt;
 	private String selectedDept;
 	private String selectedGroup;
+	private String subgroup;
 	private DAO dao;
 	private boolean pending;
 
@@ -27,7 +28,8 @@ public class Model {
 		this.selectedEstt = null;
 		this.selectedDept = null;
 		this.selectedGroup = null;
-		this.dao = new DAO();
+		this.subgroup = "0";
+		this.dao = new DAO(this);
 		this.pending = false;
 	}
 
@@ -41,6 +43,10 @@ public class Model {
 
 	public void selectGroup(String group) {
 		this.selectedGroup = group;
+	}
+	
+	public void setSubgroup(String subgroup) {
+		this.subgroup = subgroup;
 	}
 
 	public List<Establishment> getEstablishments() {
@@ -65,6 +71,10 @@ public class Model {
 		return this.days.get(current + offset);
 	}
 
+	public String getSubgroup() {
+		return this.subgroup;
+	}
+	
 	public boolean isPending() {
 		return this.pending;
 	}

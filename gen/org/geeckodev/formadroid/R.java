@@ -15,6 +15,8 @@ public final class R {
         public static final int listEsttsValues=0x7f050001;
         public static final int listGroups=0x7f050004;
         public static final int listGroupsValues=0x7f050005;
+        public static final int listSubgroup=0x7f050006;
+        public static final int listSubgroupValues=0x7f050007;
     }
     public static final class attr {
     }
@@ -54,6 +56,8 @@ public final class R {
     }
     public static final class style {
         public static final int AppTheme=0x7f070000;
+        public static final int AppTheme_ActionBar_TitleTextStyle=0x7f070002;
+        public static final int AppTheme_ActionBarStyle=0x7f070001;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;

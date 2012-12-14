@@ -24,6 +24,14 @@
             android:enabled="false"
             android:entries="@array/listGroups"
             android:entryValues="@array/listGroupsValues" />
+        <ListPreference
+            android:title="Groupe de TP"
+            android:key="subgroup_pref"
+            android:defaultValue="0"
+            android:enabled="true"
+            android:entries="@array/listSubgroup"
+            android:entryValues="@array/listSubgroupValues">
+        </ListPreference>
 </PreferenceCategory>
     
 </PreferenceScreen>

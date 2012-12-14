@@ -5,16 +5,35 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Lesson {
+	private Model model;
 	private String begin;
 	private String end;
 	private String subgroup;
 	private String name;
 
-	public Lesson(String begin, String end, String subgroup, String name) {
+	public Lesson(Model model, String begin, String end, String subgroup,
+			String name) {
+		this.model = model;
 		this.begin = begin;
 		this.end = end;
 		this.subgroup = subgroup;
 		this.name = name;
+	}
+
+	public boolean matchesSubgroup() {
+		if (this.model.getSubgroup().contains("0")) {
+			return true;
+		}
+		
+		if (this.subgroup.length() == 0) {
+			return true;
+		}
+
+		if (this.subgroup.endsWith(this.model.getSubgroup())) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public String getBegin() {

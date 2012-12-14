@@ -20,12 +20,14 @@ import org.geeckodev.formadroid.model.Department;
 import org.geeckodev.formadroid.model.Establishment;
 import org.geeckodev.formadroid.model.Lesson;
 import org.geeckodev.formadroid.model.Group;
+import org.geeckodev.formadroid.model.Model;
 
 public class DAO {
 	private final String url = "http://vpnetudiant.fr/formafetch/";
+	private Model model;
 	private DefaultHttpClient client;
 
-	public DAO() {
+	public DAO(Model model) {
 		/* Use ThreadSafeClientConnManager to avoid crashes on Android 2.x */
 
 		BasicHttpParams params = new BasicHttpParams();
@@ -33,6 +35,8 @@ public class DAO {
 		PlainSocketFactory psf = PlainSocketFactory.getSocketFactory();
 		sr.register(new Scheme("http", psf, 80));
 		ClientConnectionManager cm = new ThreadSafeClientConnManager(params, sr);
+		
+		this.model = model;
 		this.client = new DefaultHttpClient(cm, params);
 	}
 
@@ -114,7 +118,7 @@ public class DAO {
 			}
 
 			String[] s = i.split(";");
-			curr_day.addLesson(new Lesson(s[0], s[1], s[2], s[3]));
+			curr_day.addLesson(new Lesson(this.model, s[0], s[1], s[2], s[3]));
 		}
 
 		days.add(curr_day);
