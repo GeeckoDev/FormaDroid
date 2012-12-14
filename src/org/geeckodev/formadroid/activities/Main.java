@@ -21,12 +21,10 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class Main extends FragmentActivity {
@@ -34,7 +32,6 @@ public class Main extends FragmentActivity {
 
 	private FormaDroid fd;
 	private Spinner sGroup;
-	private Button btnRefresh;
 	private ViewPager vpDays;
 	private DaysPagerAdapter paDays;
 
@@ -47,17 +44,7 @@ public class Main extends FragmentActivity {
 
 		setContentView(R.layout.activity_main);
 		this.sGroup = (Spinner) findViewById(R.id.sGroup);
-		this.btnRefresh = (Button) findViewById(R.id.btnRefresh);
 		this.vpDays = (ViewPager) findViewById(R.id.vpDays);
-
-		/* Create the button */
-
-		this.btnRefresh.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new SyncDaysTask().execute(fd.model);
-			}
-		});
 
 		/* Create the ViewPager */
 
