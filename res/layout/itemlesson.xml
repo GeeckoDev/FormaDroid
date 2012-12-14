@@ -18,8 +18,7 @@
         <TextView
             android:id="@+id/tvName"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#0099CC" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <TextView

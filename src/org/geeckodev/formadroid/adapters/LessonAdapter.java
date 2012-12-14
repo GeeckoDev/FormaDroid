@@ -87,6 +87,8 @@ public class LessonAdapter extends BaseAdapter {
 
 		/* Change the color depending on the current day and hour */
 
+		holder.tvName.setTextColor(Color.rgb(0x00, 0x99, 0xCC));
+		
 		if (this.day.getNumber() == curr_day) {
 			if (lesson.isFinished())
 				holder.tvName.setTextColor(Color.GRAY);
