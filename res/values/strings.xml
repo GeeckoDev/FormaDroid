@@ -2,7 +2,7 @@
 
     <string name="app_name">FormaDroid</string>
     <string name="menu_settings">Settings</string>
-	<string name="selectedGroup">Groupe sélectionné :</string>
-	<string name="update">MAJ</string>
-	
+    <string name="selected_group">Groupe</string>
+    <string name="update">MAJ</string>
+
 </resources>
