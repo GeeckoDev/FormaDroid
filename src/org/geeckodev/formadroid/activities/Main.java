@@ -13,7 +13,10 @@ import org.geeckodev.formadroid.model.Model;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -34,6 +37,7 @@ public class Main extends FragmentActivity {
 	private Spinner sGroup;
 	private ViewPager vpDays;
 	private DaysPagerAdapter paDays;
+	private BroadcastReceiver br = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,19 @@ public class Main extends FragmentActivity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+
+		/* Update the view every minute */
+
+		this.br = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context ctx, Intent intent) {
+				if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0) {
+					Main.this.paDays.update();
+				}
+			}
+		};
+
+		registerReceiver(this.br, new IntentFilter(Intent.ACTION_TIME_TICK));
 
 		/* Check if it is the first run */
 
@@ -157,6 +174,14 @@ public class Main extends FragmentActivity {
 				i++;
 			}
 		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		
+		if (this.br != null)
+			unregisterReceiver(this.br);
 	}
 
 	public class SyncDaysTask extends AsyncTask<Model, Void, Integer> {
