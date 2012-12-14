@@ -91,8 +91,6 @@ public class Main extends FragmentActivity {
 			}
 		};
 
-		registerReceiver(this.br, new IntentFilter(Intent.ACTION_TIME_TICK));
-
 		/* Check if it is the first run */
 
 		if (PreferenceManager.getDefaultSharedPreferences(this)
@@ -111,6 +109,19 @@ public class Main extends FragmentActivity {
 				.getString("groups_pref", "none").equals("none")) {
 			new SyncGroupsTask().execute(fd.model);
 		}
+
+		/* Register the broadcast receiver */
+
+		registerReceiver(this.br, new IntentFilter(Intent.ACTION_TIME_TICK));
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		/* Unregister the broadcast receiver */
+
+		unregisterReceiver(this.br);
 	}
 
 	@Override
@@ -174,14 +185,6 @@ public class Main extends FragmentActivity {
 				i++;
 			}
 		}
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		
-		if (this.br != null)
-			unregisterReceiver(this.br);
 	}
 
 	public class SyncDaysTask extends AsyncTask<Model, Void, Integer> {
